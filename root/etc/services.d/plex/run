@@ -8,6 +8,4 @@ umask "$UMASK_SET"
 echo "Starting Plex Media Server."
 export PLEX_MEDIA_SERVER_INFO_MODEL=$(uname -m)
 export PLEX_MEDIA_SERVER_INFO_PLATFORM_VERSION=$(uname -r)
-exec \
-	s6-setuidgid abc \
-	/usr/lib/plexmediaserver/Plex\ Media\ Server
+exec s6-setuidgid abc /usr/lib/plexmediaserver/Plex\ Media\ Server
