@@ -19,10 +19,7 @@ ENV PLEX_MEDIA_SERVER_USER="abc"
 ENV PLEX_MEDIA_SERVER_INFO_VENDOR="Docker"
 ENV PLEX_MEDIA_SERVER_INFO_DEVICE="Docker Container (stephens.cc)"
 
-RUN echo "**** install runtime packages ****" \
-  && apt-get update \
-  && apt-get install -y beignet-opencl-icd jq ocl-icd-libopencl1 udev unrar wget \
-  && echo "**** install plex ****" \
+RUN echo "**** install plex ****" \
   && if [ -z ${PLEX_RELEASE+x} ]; then \
       PLEX_RELEASE=$(curl -sX GET 'https://plex.tv/api/downloads/5.json' | jq -r '.computer.Linux.version'); \
     fi \
@@ -33,16 +30,7 @@ RUN echo "**** install runtime packages ****" \
   && usermod -d /app abc \
   && echo "**** cleanup ****" \
   && apt-get clean \
-  && rm -rf /etc/default/plexmediaserver /tmp/* /var/lib/apt/lists/* /var/tmp/* \
-  && mkdir /tmp/neo \
-  && cd /tmp/neo \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-gmmlib_20.3.2_amd64.deb \
-  && wget https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.5699/intel-igc-core_1.0.5699_amd64.deb \
-  && wget https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.5699/intel-igc-opencl_1.0.5699_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-opencl_20.48.18558_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-ocloc_20.48.18558_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-level-zero-gpu_1.0.18558_amd64.deb \
-  && dpkg -i *.deb
+  && rm -rf /etc/default/plexmediaserver /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 # add local files
 COPY root/ /
